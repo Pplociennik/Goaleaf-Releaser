@@ -1,6 +1,6 @@
 @ECHO OFF
 
-set RELEASER_VERSION=1.0
+set RELEASER_VERSION=1.1
 
 rem ==================================== Configuration ==================================================
 
@@ -202,7 +202,7 @@ call :log Finished goaleaf server deploy
 goto :eof
 
 :pushRelease
-call :changeDirectory %WORKSPACE_DIRECTORY%
+call :changeDirectory %WORKSPACE_DIRECTORY%\%REPOSITORY_NAME%\Server
 call :log Pushing goaleaf server release version to repository.
 %GIT% add . || goto :error
 %GIT% commit -a -m "Release %RELEASED_VERSION%" || goto :error
@@ -211,7 +211,7 @@ call :log Pushed goaleaf server release version to repository
 goto :eof
 
 :pushDevelop
-call :changeDirectory %WORKSPACE_DIRECTORY%
+call :changeDirectory %WORKSPACE_DIRECTORY%\%REPOSITORY_NAME%\Server
 call :log Pushing development version to repository.
 call :changeVersion %NEXT_VERSION%-SNAPSHOT
 %GIT%  add . || goto :error
