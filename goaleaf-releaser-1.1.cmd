@@ -158,7 +158,7 @@ rem   set newline=%%a
 rem    call set newline= %%newline:%LAST_STABLE_VERSION%=%RELEASED_VERSION% %%
 rem    call echo %%newline%% >>%RELEASE_DIRECTORY%\web.config
 rem )
-powershell -Command "(gc %CONFIG_DIRECTORY%\web.config) -replace '%LAST_STABLE_VERSION%', '%RELEASED_VERSION%' | Out-File -encoding ASCII %RELEASE_DIRECTORY%\web.config" || goto :error
+powershell -Command "(gc %CONFIG_DIRECTORY%\web.config) -replace 'RL_VERSION', '%RELEASED_VERSION%' | Out-File -encoding ASCII %RELEASE_DIRECTORY%\web.config" || goto :error
 call :log Finished updating web.config file
 goto :eof
 
