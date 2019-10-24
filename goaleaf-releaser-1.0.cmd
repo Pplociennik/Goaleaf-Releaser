@@ -7,7 +7,10 @@ rem ==================================== Configuration =========================
 set GIT="C:\Program Files\Git\bin\git.exe"
 set MVN="C:\opt\apache-maven-3.6.1\bin\mvn.cmd"
 set JAVA="C:\Program Files\Java\jdk1.8.0_192"
-set WORKSPACE_DIRECTORY=%CD%
+set MAIN_DIRECTORY=%CD%
+set WORKSPACE_DIRECTORY=%MAIN_DIRECTORY%\workspace
+set RELEASE_DIRECTORY=%MAIN_DIRECTORY%\release
+set CONFIG_DIRECTORY=%MAIN_DIRECTORY%\.config
 
 rem ===================================== Check these variables before releasing ========================
 
@@ -23,16 +26,19 @@ set DEVELOP_BRANCH=develop
 rem This is the branch where releases are stored
 set RELEASE_BRANCH=develop
 
+rem This is release repository
+set RELEASE_REPOSITORY=https://glf_git_deployAdmin@glf-api.scm.azurewebsites.net/glf-api.git
+
 rem ------------------------------------------------------------------------------------------------------
 
 rem This is last stable released version
-set LAST_STABLE_VERSION=0.2.0
+set LAST_STABLE_VERSION=0.2.1
 
 rem This is the version that will be released
-set RELEASED_VERSION=0.2.1
+set RELEASED_VERSION=0.3.0
 
 rem This is the version that will be pushed on develop branch
-set NEXT_VERSION=0.3.0
+set NEXT_VERSION=0.4.0
 
 rem =============================================== PHASE 1 ========================================================
 
@@ -52,18 +58,15 @@ ECHO Starting...
 goto :eof
 )
 
-IF EXIST %WORKSPACE_DIRECTORY%\workspace (
-call :cleanWorkspace
-)
+call :prepareWorkspace
 
-call :log Creating workspace directory
-mkdir workspace
+call :changeDirectory %WORKSPACE_DIRECTORY% || goto :error
 
 call :log Starting executing phase 1
 
 call :clone
  
-call :changeCatalogue "workspace\%REPOSITORY_NAME%\Server"
+call :changeDirectory "%WORKSPACE_DIRECTORY%\%REPOSITORY_NAME%\Server"
 
 call :build
 
@@ -81,6 +84,8 @@ exit /b 1
 rem =============================================== PHASE 2 ========================================================
 
 call :log Starting executing phase 2
+
+call :prepareReleaseRepository
 
 call :deploy
 
@@ -109,17 +114,49 @@ exit /b 0
 
 rem ========================================================================================================
 
+:prepareWorkspace
+IF EXIST %WORKSPACE_DIRECTORY% (
+call :cleanWorkspace
+)
+call :log Creating workspace directory
+mkdir workspace || goto :error
+goto :eof
+
+:prepareReleaseRepository
+IF EXIST %RELEASE_DIRECTORY% (
+rmdir /s /q %RELEASE_DIRECTORY% || goto :error
+call :log Removed repository directory
+)
+mkdir %RELEASE_DIRECTORY% || goto :error
+call :log Created repository directory
+call :changeDirectory %RELEASE_DIRECTORY%
+%GIT% init || goto :error
+call :log Initiated git repository
+%GIT% remote add origin %RELEASE_REPOSITORY% || goto :error
+call :log Added remote url: %RELEASE_REPOSITORY%
+goto :eof
+
 :cleanWorkspace
 call :log Cleaning workspace directory
 rmdir /s /q workspace || goto :error
 goto :eof
 
+:updateConfig
+call :log Updating web.config file version to %RELEASED_VERSION%
+rem sed -i 's/%LAST_STABLE_VERSION%/%RELEASED_VERSION%/g' %CONFIG_DIRECTORY%\web.config || goto :error
+for /f "tokens=*" %%a in (%CONFIG_DIRECTORY%\web.config) do (
+  set newline=%%a
+   call set newline= %%newline:%LAST_STABLE_VERSION%=%RELEASED_VERSION% %%
+   call echo %%newline%% >>1.tmp
+)
+call :log Finished updating web.config file
+goto :eof
+
 :clone
 call :log Cloning repository %REPOSITORY%
-call :changeCatalogue workspace
 %GIT% clone %REPOSITORY% || goto :error
 call :log Finished cloning repository %REPOSITORY%
-call :changeCatalogue "workspace\%REPOSITORY_NAME%"
+call :changeDirectory "%WORKSPACE_DIRECTORY%\%REPOSITORY_NAME%"
 call :log Checking out branch %DEVELOP_BRANCH%...
 %GIT% checkout %DEVELOP_BRANCH% || goto :error
 call :log Updating repository
@@ -141,7 +178,16 @@ goto :eof
 
 :deploy
 call :log Starting goaleaf server deploy.
-%MVN% azure-webapp:deploy || goto :error
+rem %MVN% azure-webapp:deploy || goto :error
+call :changeDirectory %WORKSPACE_DIRECTORY%\%REPOSITORY_NAME%\Server\target
+copy GoaLeaf-%RELEASED_VERSION%.war %RELEASE_DIRECTORY% || goto :error
+call :changeDirectory %CONFIG_DIRECTORY%
+call :updateConfig
+copy web.config %RELEASE_DIRECTORY% || goto :error
+call :changeDirectory %RELEASE_DIRECTORY%
+%GIT% add . || goto :error
+%GIT% commit -m "Release %RELEASED_VERSION%" || goto :error
+git push origin master || goto :error
 call :log Finished goaleaf server deploy
 goto :eof
 
@@ -168,9 +214,11 @@ call :log Changing project version to %1
 call :log Changed project version to %1
 goto :eof
 
-:changeCatalogue
-cd "%WORKSPACE_DIRECTORY%\%1" || goto :error
-call :log Changed workspace to %CD%
+:changeDirectory
+popd
+call :log Changing directory to %1
+pushd "%1" || goto :error
+call :log Changed directory to %CD%
 goto :eof
 
 :error
