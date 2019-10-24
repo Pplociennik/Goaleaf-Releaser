@@ -9,7 +9,7 @@ set MVN="C:\opt\apache-maven-3.6.1\bin\mvn.cmd"
 set JAVA="C:\Program Files\Java\jdk1.8.0_192"
 set MAIN_DIRECTORY=%CD%
 set WORKSPACE_DIRECTORY=%MAIN_DIRECTORY%\workspace
-set RELEASE_DIRECTORY=%MAIN_DIRECTORY%\release
+set RELEASE_DIRECTORY=%MAIN_DIRECTORY%\distribution
 set CONFIG_DIRECTORY=%MAIN_DIRECTORY%\.config
 
 rem ===================================== Check these variables before releasing ========================
@@ -134,6 +134,15 @@ call :changeDirectory %RELEASE_DIRECTORY%
 call :log Initiated git repository
 %GIT% remote add origin %RELEASE_REPOSITORY% || goto :error
 call :log Added remote url: %RELEASE_REPOSITORY%
+rem call :log Pulling repository
+rem %GIT% pull origin master || goto :error
+rem call :log Cloning repository from %RELEASE_REPOSITORY%
+rem %GIT% clone %RELEASE_REPOSITORY% || goto :error
+rem call :log Repository cloned successfully
+rem call :log Clearing repository
+rem del /q /s *.* || goto :error
+rem %GIT% rm . || goto :error
+rem call :log Repository empty!
 goto :eof
 
 :cleanWorkspace
@@ -144,11 +153,12 @@ goto :eof
 :updateConfig
 call :log Updating web.config file version to %RELEASED_VERSION%
 rem sed -i 's/%LAST_STABLE_VERSION%/%RELEASED_VERSION%/g' %CONFIG_DIRECTORY%\web.config || goto :error
-for /f "tokens=*" %%a in (%CONFIG_DIRECTORY%\web.config) do (
-  set newline=%%a
-   call set newline= %%newline:%LAST_STABLE_VERSION%=%RELEASED_VERSION% %%
-   call echo %%newline%% >>1.tmp
-)
+rem for /f "tokens=*" %%a in (%CONFIG_DIRECTORY%\web.config) do (
+rem   set newline=%%a
+rem    call set newline= %%newline:%LAST_STABLE_VERSION%=%RELEASED_VERSION% %%
+rem    call echo %%newline%% >>%RELEASE_DIRECTORY%\web.config
+rem )
+powershell -Command "(gc %CONFIG_DIRECTORY%\web.config) -replace '%LAST_STABLE_VERSION%', '%RELEASED_VERSION%' | Out-File -encoding ASCII %RELEASE_DIRECTORY%\web.config" || goto :error
 call :log Finished updating web.config file
 goto :eof
 
@@ -183,15 +193,16 @@ call :changeDirectory %WORKSPACE_DIRECTORY%\%REPOSITORY_NAME%\Server\target
 copy GoaLeaf-%RELEASED_VERSION%.war %RELEASE_DIRECTORY% || goto :error
 call :changeDirectory %CONFIG_DIRECTORY%
 call :updateConfig
-copy web.config %RELEASE_DIRECTORY% || goto :error
+rem copy web.config %RELEASE_DIRECTORY% || goto :error
 call :changeDirectory %RELEASE_DIRECTORY%
 %GIT% add . || goto :error
 %GIT% commit -m "Release %RELEASED_VERSION%" || goto :error
-git push origin master || goto :error
+git push -f origin master || goto :error
 call :log Finished goaleaf server deploy
 goto :eof
 
 :pushRelease
+call :changeDirectory %WORKSPACE_DIRECTORY%
 call :log Pushing goaleaf server release version to repository.
 %GIT% add . || goto :error
 %GIT% commit -a -m "Release %RELEASED_VERSION%" || goto :error
@@ -200,6 +211,7 @@ call :log Pushed goaleaf server release version to repository
 goto :eof
 
 :pushDevelop
+call :changeDirectory %WORKSPACE_DIRECTORY%
 call :log Pushing development version to repository.
 call :changeVersion %NEXT_VERSION%-SNAPSHOT
 %GIT%  add . || goto :error
