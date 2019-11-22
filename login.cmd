@@ -2,8 +2,8 @@
 
 rem ======================================= Login ==============================================
 
-call :log Starting Microsoft authorization service...
-az login || goto :error
+call :log Starting Heroku authorization service...
+heroku login || goto :error
 
 rem ======================================= Functions ==========================================
 
@@ -14,6 +14,6 @@ goto :eof
 :error
 IF %ERRORLEVEL% NEQ 0 (
 echo [ERROR] Application failed with error #%ERRORLEVEL%
-echo [ERROR] Make sure you have AZURE CLI installed
+echo [ERROR] Make sure you have HEROKU CLI installed
 error /b 1
 )
