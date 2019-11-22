@@ -1,0 +1,52 @@
+$primary-color: #f2f2f2;
+$primary-color-light: #ffffff;
+$secondary-color: #1D976C;
+$text-color: #343434;
+$error-color: #c40b13;
+$navbar-height: 80px;
+
+// Categories colors
+$all-color: #444444;
+$none-color: #596e79;
+$health-color: #a6e3e9;
+$diet-color: #99ddcc;
+$study-color: #ab93c9;
+$work-color: #fd7e89;
+$sport-color: #a1dd70;
+$social-color: #eda1ab;
+$money-color: #fcc314;
+$family-color: #f0b7a4;
+
+// Small tablets and large smartphones (landscape view)
+$screen-sm-min: 576px;
+// Small tablets (portrait view)
+$screen-md-min: 768px;
+// Tablets and small desktops
+$screen-lg-min: 992px;
+// Large tablets and desktops
+$screen-xl-min: 1200px;
+
+// Small devices
+@mixin sm {
+    @media (min-width: #{$screen-sm-min}) {
+        @content;
+    }
+ }
+ // Medium devices
+ @mixin md {
+    @media (min-width: #{$screen-md-min}) {
+        @content;
+    }
+ }
+ // Large devices
+ @mixin lg {
+    @media (min-width: #{$screen-lg-min}) {
+        @content;
+    }
+ }
+ // Extra large devices
+ @mixin xl {
+    @media (min-width: #{$screen-xl-min}) {
+        @content;
+    }
+ }

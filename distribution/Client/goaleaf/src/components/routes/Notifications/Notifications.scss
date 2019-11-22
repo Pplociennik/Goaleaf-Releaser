@@ -1,0 +1,99 @@
+@import './../../../global-styles.scss';
+
+.notifications-modal-btn {
+    background-color: #fd5f00;
+    margin: 1em;
+    border-radius: 30px;
+    font-weight: 500;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    text-transform: lowercase;
+    letter-spacing: 1px;
+
+    i { margin-right: 10px }
+}
+.notifications-modal-btn:hover {
+    background-color: darken(#fd5f00, 6%);
+}
+
+.notifications-section {
+    width: 100%;
+    max-height: calc(100vh - 210px);
+    overflow-y: auto;
+
+    @include md {
+        padding: 2em;
+    }
+
+    .collection {
+        border: none;
+        .collection-item {
+            background-color: $primary-color;
+            margin: 1em;
+            line-height: 1.5em;
+           // border: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+
+            i {
+                margin-right: 20px;
+                color: #e4c666;
+            }
+
+            @include md {
+                flex-direction: row;
+            }
+
+            .ntf-card-info {
+                display: flex;
+                flex-direction: column;
+
+                .ntf-card-info-title {
+                    font-size: 1.4em;
+                    margin: 10px 0;
+                }
+                .ntf-card-info-date {
+                    color: lighten($text-color, 30%);
+                }
+            }
+            .ntf-card-btn-con {
+                display: flex;
+                align-items: center;
+
+                .btn {
+                    margin: 10px;
+                    border-radius: 30px;
+                    font-weight: 500;
+                    letter-spacing: 1px; 
+                }
+                .view-ntf-btn {
+                    background-color: $secondary-color;
+                    font-weight: 700;
+                }
+                .view-ntf-btn:hover {
+                    background-color: darken($secondary-color, 6%);
+                }
+                .delete-ntf-btn {
+                    background-color: #d65a31;
+                }
+                .delete-ntf-btn:hover {
+                    background-color: darken(#d65a31, 6%);
+                }
+            }
+        }
+    }
+    .show-more-btn-con {
+        width: 100%;
+        display: flex;
+        justify-content: center;  
+        
+        .show-more-btn {
+            background-color: #7d7d7d;
+            border-radius: 30px;
+            font-weight: 600;
+        }
+    }
+}

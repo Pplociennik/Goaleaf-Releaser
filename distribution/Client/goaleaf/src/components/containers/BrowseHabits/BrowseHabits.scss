@@ -1,0 +1,278 @@
+@import './../../../global-styles.scss';
+
+.browse-habits {
+    width: 90%;
+    margin: 2em auto;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    .browse-habits-title {
+        color: $text-color;
+        margin: 0 0.5em;
+        font-size: 2.4em;
+        font-weight: 200;
+        @include md {
+            font-size: 3.4em;
+        }
+    }
+    .browse-habits-navigation {
+        width: 92%;
+        height: auto;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        margin: 2em auto;
+
+        display: flex;
+        justify-content: space-between;
+
+        .browse-habits-navigation-filters {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 10px 0;
+        }
+
+        .category {
+            position: relative;
+            width: 36px;
+            height: 36px;
+            font-size: 0.9em;
+            color: $text-color;
+            margin: 6px;
+            font-family: 'Nunito', sans-serif;         
+            background-color: $primary-color-light;
+            border: 1px solid $secondary-color;
+            border-radius: 50%;
+            font-weight: 300;
+            cursor: pointer;
+            outline: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            @include xl {
+                width: 50px;
+                height: 50px;
+                margin: 12px;
+            }
+        }
+        .category:hover {
+            box-shadow: 2px 2px 10px 0px rgba(51,51,51,0.3);                
+        }
+        .all {
+            width: 110px;
+            font-size: 1.2em;
+            border: 2px solid $all-color;
+            letter-spacing: 3px;
+            border-radius: 30px;
+            color: $all-color;
+            font-weight: 700;
+        }
+        .none {
+            border: 2px solid $none-color;
+            color: $none-color;
+        }
+        .diet {
+            border: 2px solid $diet-color;
+            color: $diet-color;
+        }
+        .health {
+            border: 2px solid $health-color;
+            color: $health-color;
+        }
+        .study {
+            border: 2px solid $study-color;
+            color: $study-color;
+        }
+        .work {
+            border: 2px solid $work-color;
+            color: $work-color;
+        }
+        .sport {
+            border: 2px solid $sport-color;
+            color: $sport-color;
+        }
+        .social {
+            border: 2px solid $social-color;
+            color: $social-color;
+        }
+        .money {
+            border: 2px solid $money-color;
+            color: $money-color;
+        }
+        .family {
+            border: 2px solid $family-color;
+            color: $family-color;
+        }
+
+        @mixin style-text-under-category-icon() {
+            position: absolute;
+            top: 50px;
+            left: auto;
+            color: $text-color;
+            font-size: 1em;
+            opacity: 0.7;
+        }
+        @include xl {
+           .none::after {
+               content: 'none';
+               @include style-text-under-category-icon();
+           } 
+           .diet::after {
+               content: 'diet';
+               @include style-text-under-category-icon();
+           } 
+           .health::after {
+               content: 'health';
+               @include style-text-under-category-icon();
+           } 
+           .study::after {
+               content: 'study';
+               @include style-text-under-category-icon();
+           } 
+           .work::after {
+               content: 'work';
+               @include style-text-under-category-icon();
+           } 
+           .sport::after {
+               content: 'sport';
+               @include style-text-under-category-icon();
+           } 
+           .social::after {
+               content: 'social';
+               @include style-text-under-category-icon();
+           } 
+           .money::after {
+               content: 'money';
+               @include style-text-under-category-icon();
+           } 
+           .family::after {
+               content: 'family';
+               @include style-text-under-category-icon();
+           } 
+        }
+        .all-chosen {
+            background-color: $all-color;
+            color: $primary-color-light;
+        }
+        .none-chosen {
+            background-color: $none-color;
+            color: $primary-color-light;
+        }
+        .health-chosen {
+            background-color: $health-color;
+            color: $primary-color-light;
+        }
+        .diet-chosen {
+            background-color: $diet-color;
+            color: $primary-color-light;
+        }
+        .study-chosen {
+            background-color: $study-color;
+            color: $primary-color-light;
+        }
+        .work-chosen {
+            background-color: $work-color;
+            color: $primary-color-light;
+        }
+        .sport-chosen {
+            background-color: $sport-color;
+            color: $primary-color-light;
+        }
+        .social-chosen {
+            background-color: $social-color;
+            color: $primary-color-light;
+        }
+        .money-chosen {
+            background-color: $money-color;
+            color: $primary-color-light;
+        }
+        .family-chosen {
+            background-color: $family-color;
+            color: $primary-color-light;
+        }
+
+        .browse-habits-navigation-sorting {
+            display: flex;
+            .habit-cards-sort-btn {
+                background-color: #7189bf;
+                height: 36px;
+                width: 120px;
+                margin: 6px;
+                color: #fff;
+                font-size: 0.7em;
+                letter-spacing: 1px;
+                border-radius: 30px;
+                border: none;
+                cursor: pointer;
+                outline: none;
+
+                @include xl {
+                    width: 150px;
+                    height: 50px;
+                    margin: 12px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    
+                    i {
+                        margin-bottom: 4px;
+                        font-size: 1.5em;
+                    }
+                }
+
+            }
+            .inactive-habit-cards-sort-btn {
+                background-color: $primary-color;
+                border: 2px solid #7189bf;
+                color: #7189bf;
+            }
+            .habit-cards-sort-btn:hover {
+                box-shadow: 2px 2px 10px 0px rgba(51,51,51,0.3);                
+            }
+        }
+    }
+    .habit-cards {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+
+        .no-habits {
+            margin: 0 auto;
+            font-size: 1.6em;
+            margin: 3em auto 0 auto;
+        }
+    }
+    .show-more-habits-btn {
+        align-self: center;
+        background-color: $secondary-color;
+        height: 40px;
+        width: 140px;
+        margin: 12px;
+        color: #fff;
+        font-family: 'Nunito', sans-serif;          
+        font-size: 0.8em;
+        font-weight: 400;
+        letter-spacing: 2px;
+        border: none;
+        border-radius: 30px;
+        outline: 0;
+        cursor: pointer;
+
+        @include md {
+            height: 56px;
+            width: 250px;
+            margin: 24px;
+            font-size: 1.2em;
+        }
+    }
+    .show-more-habits-btn:hover {
+        box-shadow: 2px 2px 10px 0px rgba(51,51,51,0.3);                
+    }
+    .hide-show-more-habits-btn {
+        display: none;
+    }
+}

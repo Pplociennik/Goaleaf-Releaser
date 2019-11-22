@@ -1,0 +1,285 @@
+@import './../../../global-styles.scss';
+
+.habit-page {
+    width: 100%;
+    color: $text-color;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+
+    .habit-page-header-con {
+        background-color: $primary-color-light;
+        height: auto;
+        width: 94%;
+        border-radius: 30px;
+        padding: 10px;
+        margin-top: 20px;
+        color: $text-color;
+        box-shadow: 2px 2px 10px 0px rgba(51,51,51,0.2);        
+        display: flex;
+        justify-content: center;
+        position: relative;
+
+        @include md {
+            width: 90%;
+            min-height: 300px;
+        }
+
+        .habit-page-info-con {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+
+            @include md {
+                flex-direction: row;
+                justify-content: space-between;
+                width: 80%;
+            }
+
+            .habit-page-text-con {
+                padding: 10px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+
+                @include lg {
+                    width: 80%;
+                }
+                h1 {
+                    color: $text-color;
+                    overflow-wrap: break-word;
+                    margin: 0;
+                    font-size: 2em;
+                    font-weight: 400;
+                    @include lg {
+                        font-size: 3em;
+                    }
+                }
+            }
+            .habit-page-header-btn-con {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                .habit-page-header-btn {
+                    background-color: $primary-color-light;
+                    color: $secondary-color;
+                    height: 60px;
+                    width: 140px;
+                    margin: 10px;
+                    border-radius: 30px;
+                    font-size: 1.3em;
+                    letter-spacing: 1px;
+                    text-transform: lowercase;
+                }
+                .leave-habit-btn {
+                    background-color: #ff6138;
+                    color: $primary-color-light;
+                }
+                .join-habit-btn {
+                    background-color: green;
+                    color: $primary-color-light;
+                }
+            }
+        }
+        .habit-page-info-blocks {
+            width: 90%;
+            margin: 1em 0;
+            display: flex;
+            flex-wrap: wrap;
+
+            .habit-page-info-block {
+                width: auto;
+                height: 28px;
+                padding: 4px 16px;
+                margin: 6px;
+                border-radius: 6px;
+                font-weight: 600;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                i { margin-right: 6px; }
+            }
+        }
+
+.habit-card-delete-btn {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    cursor: pointer;
+}
+.habit-popup {
+
+    .delete-habit-title {
+        font-size: 1.4em;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100px;
+        text-align: center;
+        line-height: 30px;
+
+    }
+    .delete-habit-buttons {
+        font-size: 2.2em;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100px;
+
+        button {
+            margin: 20px;
+            border-radius: 30px;
+            padding: 8px 20px;
+            cursor: pointer;
+            font-weight: 400;
+            letter-spacing: 1px;
+            font-size: 0.6em;
+            background: $primary-color;
+            color: $text-color;
+            border: none;
+        }
+        .delete-habit-btn {
+            background: #c40b13;
+            color: #fff;
+        }
+        .delete-habit-back {
+            background: $secondary-color;
+            color: #fff;
+        }
+    }
+}
+
+    }
+
+    .habit-page-navigation-con {
+        height: 100px;
+        width: 94%;
+        height: auto;
+        display: flex;
+        flex-wrap: wrap;
+        @include md { width: 90% }
+
+        .habit-page-navigation {
+            display: flex;
+            flex-wrap: wrap;
+
+            .habit-page-navigation-btn {
+                background-color: $primary-color-light;
+                color: #1D976C;
+                border-radius: 30px;
+                margin: 1em 0 0 1em;
+            }
+        }
+    }
+    .habit-page-dashboard {
+        width: 900px;
+        max-width: 100%;
+        margin-top: 3em;
+    }
+}
+
+.NONE-category {
+    .habit-page-header-con {
+        h1 {
+            color: $none-color;
+        }
+        .habit-page-info-block {
+            background-color: $none-color;
+            color: $primary-color-light;
+        }
+    }
+}
+.DIET-category {
+    .habit-page-header-con {
+        h1 {
+            color: $diet-color;
+        }
+        .habit-page-info-block {
+            background-color: $diet-color;
+            color: lighten($text-color, 30%);
+        }
+    }
+}
+.SPORT-category {
+    .habit-page-header-con {
+        h1 {
+            color: $sport-color;
+        }
+        .habit-page-info-block {
+            background-color: $sport-color;
+            color: lighten($text-color, 30%);
+        }
+    }
+}
+.HEALTH-category {
+    .habit-page-header-con {
+        h1 {
+            color: $health-color;
+        }
+        .habit-page-info-block {
+            background-color: $health-color;
+            color: lighten($text-color, 30%);
+        }
+    }
+}
+.STUDY-category {
+    .habit-page-header-con {
+        h1 {
+            color: $study-color;
+        }
+        .habit-page-info-block {
+            background-color: $study-color;
+            color: lighten($text-color, 10%);
+        }
+    }
+}
+.WORK-category {
+    .habit-page-header-con {
+        h1 {
+            color: $work-color;
+        }
+        .habit-page-info-block {
+            background-color: $work-color;
+            color: lighten($text-color, 10%);
+        }
+    }
+}
+.MONEY-category {
+    .habit-page-header-con {
+        h1 {
+            color: $money-color;
+        }
+        .habit-page-info-block {
+            background-color: $money-color;
+            color: lighten($text-color, 10%);
+        }
+    }
+}
+.SOCIAL-category {
+    .habit-page-header-con {
+        h1 {
+            color: $social-color;
+        }
+        .habit-page-info-block {
+            background-color: $social-color;
+            color: lighten($text-color, 10%);
+        }
+    }
+}
+.FAMILY-category {
+    .habit-page-header-con {
+        h1 {
+            color: $family-color;
+        }
+        .habit-page-info-block {
+            background-color: $family-color;
+            color: lighten($text-color, 10%);
+        }
+    }
+}

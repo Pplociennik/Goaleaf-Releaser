@@ -1,0 +1,138 @@
+@import './../../../global-styles.scss';
+
+.habit-card {
+    background-color: $primary-color-light;
+    width: 100%;
+    max-width: 300px;
+    height: 136px;
+    margin: 10px;
+    padding: 8px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px 0px rgba(51,51,51,0.2);
+    color: $text-color;
+    overflow: hidden;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all .2s ease-in-out;
+
+    .habit-card-title {
+        max-height: 50%;
+        max-width: 100%;
+        margin: 0;
+        font-size: 1.4em;
+        font-weight: 400;
+        line-height: 30px;
+        text-overflow: ellipsis;        
+        word-break: break-word;
+        overflow: hidden;
+        display: flex;
+    }
+    .habit-card-info-con {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        opacity: 0.8;
+        .habit-card-info {
+            margin: 3px 0;
+            font-size: 1em;
+            font-weight: 400;
+        }
+        .habit-card-info-right {
+            display: flex;
+
+        .frequency, .members-number {
+            margin-right: 16px;
+            font-size: 1.2em;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .frequency {
+            
+        }
+
+    }
+    }
+}
+.NONE {
+    border-left: 10px solid $none-color;
+}
+.NONE:hover{
+    background-color: $none-color;
+    color: #fff;
+}
+.DIET {
+    border-left: 10px solid $diet-color;
+}
+.DIET:hover{
+    background-color: $diet-color;
+    color: #fff;
+}
+.HEALTH {
+    border-left: 10px solid $health-color;
+}
+.HEALTH:hover{
+    background-color: $health-color;
+    color: #fff;
+}
+.STUDY {
+    border-left: 10px solid $study-color;
+}
+.STUDY:hover{
+    background-color: $study-color;
+    color: #fff;
+}
+.WORK {
+    border-left: 10px solid $work-color;
+}
+.WORK:hover{
+    background-color: $work-color;
+    color: #fff;
+}
+.SPORT {
+    border-left: 10px solid $sport-color;
+}
+.SPORT:hover{
+    background-color: $sport-color;
+    color: #fff;
+}
+.SOCIAL {
+    border-left: 10px solid $social-color;
+}
+.SOCIAL:hover{
+    background-color: $social-color;
+    color: #fff;
+}
+.MONEY {
+    border-left: 10px solid $money-color;
+}
+.MONEY:hover{
+    background-color: $money-color;
+    color: #fff;
+}
+.FAMILY {
+    border-left: 10px solid $family-color;
+}
+.FAMILY:hover{
+    background-color: $family-color;
+    color: #fff;
+}
+.habit-card:hover {
+    box-shadow: 6px 6px 10px 0px rgba(51,51,51,0.2);
+    transform: scale(1.07);
+}
+
+.habit-card-ended {
+    opacity: 0.6;
+}
+
+.habit-card-won {
+    border-left: 10px solid #CAC531;
+}
+.habit-card-won:hover {
+    background: #CAC531;
+    background: -webkit-linear-gradient(to right, #CAC531, #F3F9A7);
+    background: linear-gradient(to right, #CAC531, #F3F9A7);
+}
