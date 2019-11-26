@@ -1,6 +1,6 @@
 @ECHO OFF
 
-set RELEASER_VERSION=2.0
+set RELEASER_VERSION=2.1
 
 rem ==================================== Configuration ==================================================
 
