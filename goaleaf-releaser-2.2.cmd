@@ -1,6 +1,6 @@
 @ECHO OFF
 
-set RELEASER_VERSION=2.1
+set RELEASER_VERSION=2.2
 
 rem ==================================== Configuration ==================================================
 
@@ -22,6 +22,9 @@ set API_REPOSITORY=https://github.com/Pplociennik/glf-api.git
 rem Repository name
 set REPOSITORY_NAME=GoaLeaf
 
+rem API Repository name
+set API_REPOSITORY_NAME=glf-api
+
 rem This is the branch we are working on
 set DEVELOP_BRANCH=develop
 
@@ -31,13 +34,13 @@ set RELEASE_BRANCH=develop
 rem ------------------------------------------------------------------------------------------------------
 
 rem This is last stable released version
-set LAST_STABLE_VERSION=0.6.0
+set LAST_STABLE_VERSION=0.8.0
 
 rem This is the version that will be released
-set RELEASED_VERSION=0.7.0
+set RELEASED_VERSION=0.8.2
 
 rem This is the version that will be pushed on develop branch
-set NEXT_VERSION=0.8.0
+set NEXT_VERSION=0.9.0
 
 rem =============================================== PHASE 1 ========================================================
 
@@ -129,15 +132,14 @@ call :log Removed repository directory
 mkdir %RELEASE_DIRECTORY% || goto :error
 call :log Created release directory
 call :changeDirectory %RELEASE_DIRECTORY%
+%GIT% clone %API_REPOSITORY% || goto :error
+call :changeDirectory "%RELEASE_DIRECTORY%\%API_REPOSITORY_NAME%"
+del /S /Q *.* || goto :error
 %GIT% init || goto :error
-call :log Initiated git repository
 %GIT% remote add origin %API_REPOSITORY% || goto :error
-call :log Added remote url: %API_REPOSITORY%
 %GIT% pull origin master || goto :error
-rem del /S /Q *.* || goto :error
-rem %GIT% rm *
-call :changeDirectory %WORKSPACE_DIRECTORY%\%REPOSITORY_NAME%\Server
-xcopy /S /Y *.* %RELEASE_DIRECTORY%
+call :changeDirectory "%WORKSPACE_DIRECTORY%\%REPOSITORY_NAME%\Server"
+xcopy /S /Y *.* "%RELEASE_DIRECTORY%\%API_REPOSITORY_NAME%"
 call :log Release directory prepared!
 goto :eof
 
@@ -172,7 +174,7 @@ goto :eof
 
 :deploy
 call :log Starting goaleaf server deploy.
-call :changeDirectory %RELEASE_DIRECTORY%
+call :changeDirectory "%RELEASE_DIRECTORY%\%API_REPOSITORY_NAME%"
 %GIT% add . || goto :error
 %GIT% commit -m "Release %RELEASED_VERSION%" || goto :error
 %GIT% push origin master || goto :error
@@ -188,7 +190,7 @@ call :log Finished creating tags
 goto :eof
 
 :pushRelease
-call :changeDirectory %WORKSPACE_DIRECTORY%\%REPOSITORY_NAME%\Server
+call :changeDirectory "%WORKSPACE_DIRECTORY%\%REPOSITORY_NAME%\Server"
 call :log Pushing goaleaf server release version to repository.
 %GIT% add . || goto :error
 %GIT% commit -a -m "Release %RELEASED_VERSION%" || goto :error
@@ -197,7 +199,7 @@ call :log Pushed goaleaf server release version to repository
 goto :eof
 
 :pushDevelop
-call :changeDirectory %WORKSPACE_DIRECTORY%\%REPOSITORY_NAME%\Server
+call :changeDirectory "%WORKSPACE_DIRECTORY%\%REPOSITORY_NAME%\Server"
 call :log Pushing development version to repository.
 call :changeVersion %NEXT_VERSION%-SNAPSHOT
 %GIT%  add . || goto :error
